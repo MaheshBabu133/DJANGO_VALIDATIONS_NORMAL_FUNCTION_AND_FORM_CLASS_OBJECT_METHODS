@@ -1,5 +1,7 @@
 from django import forms
 
+from django.core import validators
+
 #this is the normal function
 def start_with_a(value):
     if value[0].lower()=='a': #if it starts with a then it cannot allow
@@ -11,12 +13,14 @@ def len_with_g_4(value):
 
 
 class StudentForm(forms.Form):
-    name=forms.CharField(max_length=100,validators=[start_with_a,len_with_g_4])
+    name=forms.CharField(max_length=100,validators=[start_with_a,len_with_g_4,validators.MaxLengthValidator(10)])
     age=forms.IntegerField()
     email=forms.EmailField()
     re_enter_email=forms.EmailField()
     botcatcher=forms.CharField(max_length=100,widget=forms.HiddenInput,required=False)
+    Mobile=forms.CharField(max_length=10,min_length=10,validators=[validators.RegexValidator('[6-9]\d{9}')]) #it valids the only numbers which starts with the 6 or 7 or 8 or 9
     #bot catcher is the element which is present in sorce code cannot display in th front-end
+
 
 
     def clean(self):   #it is automatically called after the calling validators
